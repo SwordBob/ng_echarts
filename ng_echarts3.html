@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+<meta charset="utf-8" />
+<title></title>
+<!--<link href="css/index.css" rel="stylesheet" />-->
+</head>
+
+<script src="js/echarts.js" type="text/javascript" charset="utf-8"></script>
+<body ng-app="myApp">
+<div ng-controller="myCtrl" style="width:90%;height:100%;margin:0 auto;">
+<bar legend="legend" item="item" data="data"></bar>
+</div>
+<!--<script src="js/require.js"></script>-->
+
+<script src="js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/angular.min.js"></script>
+
+<script>
+var app = angular.module("myApp", []);
+app.controller("myCtrl", function($scope) {
+$scope.legend=["2015"];
+$scope.item=['企业1','企业1','企业1','企业1','企业1','企业1','企业1','企业1'];
+$scope.data=[5,10,5,10,5,10,5,10];
+})
+define(['app','echarts'],function(app,echarts){
+    app.register.directive('bar',function(){
+           return {
+            scope: {
+                legend: "=",
+                item: "=",
+                data: "="
+            },
+            restrict: 'EA',
+            template: '<div id="barId" style="width:400px;border:2px solid blue;height:400px;float:left;"></div>',
+            replace: true,
+           link: function($scope, iElm, iAttrs, controller) {
+               var option = {
+                   tooltip: {
+                       show: true,
+                       trigger: "axis"
+                   },
+                   legend: {
+                       data:$scope.legend
+                   },
+                   xAxis: [{
+                       type: 'value'
+                   }],
+                   yAxis: [{
+                       type: 'category',
+                       data: $scope.item
+                   }],
+                   series: function() {
+                       var serie = [];
+                       for (var i = 0; i < $scope.legend.length; i++) {
+                           var item = {
+                               name: $scope.legend[i],
+                               type: 'bar',
+                               data: $scope.data[i]
+                           };
+                           serie.push(item);
+                       }
+                       return serie;
+                   }()
+               };
+               var myChart = echarts.init(document.getElementById('barId'),'macarons');
+                myChart.setOption(option);
+            }
+        };
+    })
+
+}); 
+	</script>
+	</body>
+
+
+</html>

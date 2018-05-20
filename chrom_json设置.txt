@@ -1,0 +1,1 @@
+C:\Users\SWORDBOB\AppData\Local\Google\Chrome\Application>start chrome.exe --allow-file-access-from-files --disable-web-security --user-data-dir="E:/aaa"
