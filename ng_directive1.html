@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+<meta charset="utf-8" />
+<title></title>
+<!--<link href="css/index.css" rel="stylesheet" />-->
+</head>
+<!--<script src="js/require.js"></script>-->
+<script src="js/echarts.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/angular.min.js"></script>
+
+<body>
+    <!-- <div  ng-controller="ctl1">{{content}} -->
+        <!-- <test-directive>这是原本的内容</test-directive> -->
+    <!-- </div> -->
+	<div ng-controller="ctl1">
+    <div>父scope：
+        <div>Say：{{user.name}}<br>改变父scope的name：<input type="text" value="" ng-model="user.name"/></div>
+    </div>
+    <div>隔离scope：
+        <div test-directive user="user"></div>
+    </div>
+    <div>隔离scope（使用{{name}}，这个会报错）：
+        <div test-directive user="{{user}}"></div> 
+    </div>
+</div>
+
+<script>
+var module1 = angular.module('module1',[]);
+<!-- module1.controller('ctl1', function($scope) { -->
+   <!-- $scope.content = 'i\'m, module 1'; -->
+    <!-- $scope.name = 'module1'; -->
+    <!-- $scope.save = function() { -->
+        <!-- console.log('is function save'); -->
+    <!-- }; -->
+<!-- }); -->
+ module1.controller("ctl1", function ($scope) {
+        $scope.user = {
+            name: 'hello',
+            id: 1
+        };
+    }).directive("testDirective", function () {
+        return {
+            scope: {
+                user: "="
+            },
+            template: 'Say：{{user.name}} <br>改变隔离scope的name：<input type="buttom" value="" ng-model="user.name"/>'
+        }
+    })
+
+<!-- module1.directive('testDirective', function() { -->
+    <!-- // 将对象return出去 -->
+    <!-- return{ -->
+        <!-- restrict: 'E',// 指令类型  E：element A：attribute M：comment C: class -->
+        <!-- template: '<div>我是指令生成的内容</div>', -->
+        <!-- replace: true, //使用模板替换原始标记  指令内原本的数据将被清空 -->
+    <!-- } -->
+<!-- }); -->
+angular.bootstrap(document.body,['module1']);
+</script>
+</body>
+
+
+</html>
+
+
+
